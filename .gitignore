@@ -21,3 +21,10 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+.project
+oauth2-server/target/
+oauth2-memory-test/target/
+oauth2-memory-test/.settings/
+.settings/
+oauth2-memory-test/.classpath
+oauth2-server/.classpath

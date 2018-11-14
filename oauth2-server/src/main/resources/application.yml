@@ -1,0 +1,45 @@
+server:
+  port: 8080
+
+spring: 
+  datasource: 
+    driver-class-name: com.mysql.jdbc.Driver
+    # druid 详细配置说明请参看官网 https://github.com/alibaba/druid/tree/master/druid-spring-boot-starter
+    # 连接池配置 默认值请参看com.alibaba.druid.pool.DruidAbstractDataSource
+    druid:
+      filters: stat
+      max-active: 10
+      min-idle: 3
+      max-pool-prepared-statement-per-connection-size: 50
+      max-wait: 600000 #获取连接等待超时的时间
+      pool-prepared-statements: true
+      test-on-borrow: false
+      test-on-return: false
+      test-while-idle: true
+      validation-query: SELECT 1 FROM DUAL
+    url: jdbc:mysql://127.0.0.1:3306/oauth?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: 123456
+  mvc: 
+    static-path-pattern: /static/**
+    view:
+      suffix: .jsp
+      prefix: /WEB-INF/views/
+    
+mybatis:
+  mapperLocations: classpath*:mapper/**/*.xml
+  typeAliasesPackage: com.soj.model
+  
+redis: 
+  host: 127.0.0.1
+  port: 6379
+  database: 0
+  timeout: 10000
+  pool:
+    max-idle: 300
+    max-wait: 3000
+   
+  
+  
+  
+  
