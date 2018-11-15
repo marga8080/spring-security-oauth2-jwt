@@ -10,9 +10,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.soj.config.custom.RedirectAuthenticationFailureHandler;
-import com.soj.config.filter.PhoneCodeAuthenticationProcessingFilter;
-import com.soj.config.provider.PhoneCodeAuthenticationProvider;
+import com.soj.config.custom.RedirectUrlAuthenticationFailureHandler;
+import com.soj.config.filter.SmsCodeAuthenticationProcessingFilter;
+import com.soj.config.provider.SmsCodeAuthenticationProvider;
 import com.soj.config.provider.UsernamePasswordAuthenticationProvider;
 
 
@@ -33,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		// 登录方式Provider
-        auth.authenticationProvider(phoneCodeAuthenticationProvider());
+        auth.authenticationProvider(smsCodeAuthenticationProvider());
         auth.authenticationProvider(usernamePasswordAuthenticationProvider());
     }
 	
@@ -43,15 +43,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 	
 	@Bean
-    public PhoneCodeAuthenticationProcessingFilter phoneCodeAuthenticationProcessingFilter() {
-		PhoneCodeAuthenticationProcessingFilter filter = new PhoneCodeAuthenticationProcessingFilter();
+    public SmsCodeAuthenticationProcessingFilter smsCodeAuthenticationProcessingFilter() {
+		SmsCodeAuthenticationProcessingFilter filter = new SmsCodeAuthenticationProcessingFilter();
         filter.setAuthenticationManager(authenticationManager);
+        filter.setAuthenticationFailureHandler(new RedirectUrlAuthenticationFailureHandler("/login"));
         return filter;
     }
 	
 	@Bean
-	public PhoneCodeAuthenticationProvider phoneCodeAuthenticationProvider() {
-		return new PhoneCodeAuthenticationProvider();
+	public SmsCodeAuthenticationProvider smsCodeAuthenticationProvider() {
+		return new SmsCodeAuthenticationProvider();
 	}
 
 	@Override
@@ -77,14 +78,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.and()
 			.formLogin()
 			.loginPage("/login")
-			.failureHandler(new RedirectAuthenticationFailureHandler("/login"))
+			.failureHandler(new RedirectUrlAuthenticationFailureHandler("/login"))
 			.defaultSuccessUrl("/index")
 			.permitAll()
 			.and()
 			.logout()
 			.logoutSuccessUrl("/login");
 		
-		http.addFilterBefore(phoneCodeAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
+		http.addFilterBefore(smsCodeAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
 
 

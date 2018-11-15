@@ -1,6 +1,7 @@
 package com.soj.config.custom;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,13 +16,13 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
-public class RedirectAuthenticationFailureHandler implements AuthenticationFailureHandler {
+public class RedirectUrlAuthenticationFailureHandler implements AuthenticationFailureHandler {
 	protected final Log logger = LogFactory.getLog(getClass());
 	
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	private String defaultFailureUrl;
 
-	public RedirectAuthenticationFailureHandler(String defaultFailureUrl) {
+	public RedirectUrlAuthenticationFailureHandler(String defaultFailureUrl) {
 		this.defaultFailureUrl = defaultFailureUrl;
 	}
 
@@ -33,10 +34,14 @@ public class RedirectAuthenticationFailureHandler implements AuthenticationFailu
 			return;
 		}
 		String url = "";
+		String error = "";
+		if (StringUtils.isNotBlank(exception.getMessage())) {
+			error = URLEncoder.encode(exception.getMessage(), "UTF-8");
+		}
 		if (defaultFailureUrl.indexOf("?") > 0) {
-			url = defaultFailureUrl + "&error=" + exception.getMessage();
+			url = defaultFailureUrl + "&error=" + error;
 		} else {
-			url = defaultFailureUrl + "?error=" + exception.getMessage();
+			url = defaultFailureUrl + "?error=" + error;
 		}
 		redirectStrategy.sendRedirect(request, response, url);
 	}

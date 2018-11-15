@@ -9,7 +9,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
-import com.soj.config.token.PhoneCodeAuthenticationToken;
+import com.soj.config.token.SmsCodeAuthenticationToken;
 import com.soj.service.CustomUserService;
 import com.soj.utils.JedisUtils;
 
@@ -18,7 +18,7 @@ import com.soj.utils.JedisUtils;
  * @author mawei
  *
  */
-public class PhoneCodeAuthenticationProvider implements AuthenticationProvider {
+public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
 	
 	@Autowired
 	CustomUserService userService;
@@ -44,15 +44,17 @@ public class PhoneCodeAuthenticationProvider implements AuthenticationProvider {
         if (!code.equals(smsCode)) {
         	throw new BadCredentialsException("验证码不正确");
         }
+        // 验证成功后删除redis中的验证码
+        JedisUtils.del(key);
         UserDetails userDetails = userService.loadUserByPhone(phone);
-        PhoneCodeAuthenticationToken result = new PhoneCodeAuthenticationToken(userDetails, authentication.getCredentials(), userDetails.getAuthorities());
+        SmsCodeAuthenticationToken result = new SmsCodeAuthenticationToken(userDetails, authentication.getCredentials(), userDetails.getAuthorities());
         result.setDetails(authentication.getDetails());
         return result;
 	}
 
 	@Override
 	public boolean supports(Class<?> authentication) {
-		return authentication.equals(PhoneCodeAuthenticationToken.class);
+		return authentication.equals(SmsCodeAuthenticationToken.class);
 	}
 
 }

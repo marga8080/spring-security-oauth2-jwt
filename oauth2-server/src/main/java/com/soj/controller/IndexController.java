@@ -23,7 +23,7 @@ public class IndexController {
     public String login(Model model, @RequestParam(value = "error", required = false) String error, @RequestParam(value = "logout", required = false) String logout) {
         if (error != null) {
         	logger.error(error);
-            model.addAttribute("error", "登录不成功，可能是用户名/密码错了");
+            model.addAttribute("error", error);
         }
         if(logout != null){
             model.addAttribute("msg", "您已成功注销！");

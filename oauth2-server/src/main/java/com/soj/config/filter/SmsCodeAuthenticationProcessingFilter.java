@@ -13,16 +13,16 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.soj.config.token.PhoneCodeAuthenticationToken;
+import com.soj.config.token.SmsCodeAuthenticationToken;
 
-public class PhoneCodeAuthenticationProcessingFilter extends AbstractAuthenticationProcessingFilter {
+public class SmsCodeAuthenticationProcessingFilter extends AbstractAuthenticationProcessingFilter {
     public static final String SPRING_SECURITY_FORM_MOBILE_KEY = "phone";
     public static final String SPRING_SECURITY_FORM_CODE_KEY = "code";
 
     private boolean postOnly = true;
 
-    public PhoneCodeAuthenticationProcessingFilter() {
-        super(new AntPathRequestMatcher("/phoneCodeLogin", "POST"));
+    public SmsCodeAuthenticationProcessingFilter() {
+        super(new AntPathRequestMatcher("/smsCodeLogin", "POST"));
     }
 
     @Override
@@ -46,7 +46,7 @@ public class PhoneCodeAuthenticationProcessingFilter extends AbstractAuthenticat
 
         mobile = mobile.trim();
         code = code.trim();
-        AbstractAuthenticationToken authRequest = new PhoneCodeAuthenticationToken(mobile, code);
+        AbstractAuthenticationToken authRequest = new SmsCodeAuthenticationToken(mobile, code);
 
         // Allow subclasses to set the "details" property
         setDetails(request, authRequest);

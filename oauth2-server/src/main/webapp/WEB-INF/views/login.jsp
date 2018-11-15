@@ -48,7 +48,7 @@
         </div>
     </form>
     <span>-------------用手机号验证码登录-------------</span>
-    <form action="<c:url value='/phoneCodeLogin'/>" method="post">
+    <form action="<c:url value='/smsCodeLogin'/>" method="post">
         <!-- 开启csrf后必须包含_csrf.token,否则报错： 403 Could not verify the provided CSRF token because your session was not found -->
 		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }" />
         <div>
