@@ -28,7 +28,7 @@
 					<br />
 				</div>
 			</c:if>
-			<div id="codemsg" style=" height:22px; display:none;" class="clearfix"></div>
+			<div id="codemsg" style="display:none;" class="clearfix"></div>
 		</div>
 
     <!-- SpringSecurity3.x默认的登录拦截URL是/j_spring_security_check； 4.x默认的登录拦截URL是/login -->
@@ -36,11 +36,11 @@
 	    <!-- 开启csrf后必须包含_csrf.token,否则报错： 403 Could not verify the provided CSRF token because your session was not found -->
 		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }" />
         <div>
-            <label> 用户名: <input type="text" name="username" />
+            <label> 用户名: <input type="text" name="username" autocomplete="off"/>
             </label>
         </div>
         <div>
-            <label> 密码: <input type="password" name="password" />
+            <label> 密码: <input type="password" name="password" autocomplete="new-password"/>
             </label>
         </div>
         <div>
