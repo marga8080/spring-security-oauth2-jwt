@@ -20,13 +20,10 @@ public class IndexController {
 	}
 	
 	@GetMapping("/login")
-    public String login(Model model, @RequestParam(value = "error", required = false) String error, @RequestParam(value = "logout", required = false) String logout) {
+    public String login(Model model, @RequestParam(value = "error", required = false) String error) {
         if (error != null) {
         	logger.error(error);
             model.addAttribute("error", error);
-        }
-        if(logout != null){
-            model.addAttribute("msg", "您已成功注销！");
         }
         return "login";
     }
