@@ -28,3 +28,4 @@ oauth2-memory-test/.settings/
 .settings/
 oauth2-memory-test/.classpath
 oauth2-server/.classpath
+oauth2-client/.classpath
