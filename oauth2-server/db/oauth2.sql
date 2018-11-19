@@ -96,7 +96,7 @@ INSERT INTO oauth_client_details
 	refresh_token_validity, additional_information, autoapprove)
 VALUES
 	('client4', 'secret', 'read,write',
-	'implicit', 'http://127.0.0.1', null, 3600, 36000, null, 'true');	
+	'password,authorization_code,refresh_token', 'http://127.0.0.1:8081/index', null, 3600, 36000, null, 'true');	
 	
 
 drop table if exists t_user;

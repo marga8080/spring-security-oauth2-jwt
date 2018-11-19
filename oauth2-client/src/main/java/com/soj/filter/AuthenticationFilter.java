@@ -1,7 +1,8 @@
 package com.soj.filter;
 
 import java.io.IOException;
-import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -18,7 +19,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.soj.utils.HttpUtil;
+import com.soj.model.UserInfo;
+import com.soj.utils.HttpUtils;
 import com.soj.utils.PropertiesUtils;
 
 import net.sf.json.JSONObject;
@@ -72,24 +74,24 @@ public class AuthenticationFilter implements Filter {
 			return;
 		}
 		
+		String redirect_url = request.getRequestURL().toString();
+		
 		String code = request.getParameter("code");
 		if (StringUtils.isNotBlank(code)) {
-			// TODO
-			
-			chain.doFilter(req, rsp);
+			String token = getToken(code, redirect_url);
+			UserInfo user = getUserInfo(token);
+			session.setAttribute(USER_INFO, user);
+//			chain.doFilter(req, rsp);
+			// 使用 Redirect 不要带code
+			response.sendRedirect(redirect_url);
 			return;
 		}
 		
-		String url = request.getRequestURL().toString();
-		String params = request.getQueryString();
-		if(StringUtils.isNotBlank(params)){
-			url += "?" + params;
-		}
-		url = URLEncoder.encode(url, "UTF-8");
+		
 		//获取code
 		//http://localhost:8080/oauth/authorize?client_id=client1&response_type=code&redirect_uri=http://www.baidu.com
 		String rediectUrl = "OAUTHSERVER/oauth/authorize?client_id=CLIENT_ID&response_type=code&redirect_uri=REDIRECT_URI";
-		rediectUrl = rediectUrl.replace("OAUTHSERVER", oauthServer).replace("CLIENT_ID", client_id).replace("REDIRECT_URI", url);
+		rediectUrl = rediectUrl.replace("OAUTHSERVER", oauthServer).replace("CLIENT_ID", client_id).replace("REDIRECT_URI", redirect_url);
 		response.sendRedirect(rediectUrl);
 	}
 	
@@ -98,16 +100,30 @@ public class AuthenticationFilter implements Filter {
 		
 	}
 	
-	private String getToken(String code) throws IOException {
-		String uri = "http://localhost:8080/oauth/token";
-		JSONObject json = HttpUtil.post(uri, "");
-		
-		return null;
+	private String getToken(String code, String redirect_uri) throws IOException {
+		Map<String, String> map = new HashMap<>();
+		map.put("client_id", client_id);
+		map.put("client_secret", client_secret);
+		map.put("grant_type", "authorization_code");
+		map.put("code", code);
+		map.put("redirect_uri", redirect_uri);
+		JSONObject obj = HttpUtils.postForm(oauthServer + "/oauth/token", map);
+		if (obj.containsKey("error")) {
+			throw new RuntimeException(obj.getString("error_description"));
+		}
+		return obj.getString("access_token");
 	}
 	
-	private JSONObject getUserInfo() {
-		
-		return null;
+	private UserInfo getUserInfo(String token) throws IOException {
+		JSONObject obj = HttpUtils.get(oauthServer + "/oauth/check_token?token=" + token);
+		if (obj.containsKey("error")) {
+			throw new RuntimeException(obj.getString("error_description"));
+		}
+		UserInfo user = new UserInfo();
+		user.setId(obj.getString("id"));
+		user.setName(obj.getString("name"));
+		user.setUser_name(obj.getString("user_name"));
+		return user;
 	}
 	
 	private boolean isExcludeUrls(HttpServletRequest request) {

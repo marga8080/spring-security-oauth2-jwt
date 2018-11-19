@@ -7,7 +7,9 @@ import java.net.UnknownHostException;
 import java.security.GeneralSecurityException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.net.ssl.HostnameVerifier;
@@ -26,6 +28,7 @@ import org.apache.http.NoHttpResponseException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.HttpRequestRetryHandler;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -37,6 +40,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.util.EntityUtils;
@@ -51,7 +55,7 @@ import net.sf.json.JSONObject;
  * See <a href="http://blog.csdn.net/happylee6688/article/details/47148227">HttpClient发送HTTP、HTTPS请求的简单封装</a>
  * 
  */
-public class HttpUtil {
+public class HttpUtils {
 	
 	private static PoolingHttpClientConnectionManager connMgr;
 	private static RequestConfig requestConfig;
@@ -186,9 +190,40 @@ public class HttpUtil {
 	 * @return json对象
 	 * @throws IOException io异常
 	 */
-	public static JSONObject post(String uri, JSONObject params,Map<String,String> headerParams) throws IOException {
+	public static JSONObject post(String uri, JSONObject params, Map<String,String> headerParams) throws IOException {
 //		return post(uri, params.toString());
 		String result = doPost(uri, params.toString(),headerParams);
+		JSONObject obj = JSONObject.fromObject(result);
+		return obj;
+	}
+	
+	
+	/**
+	 * post请求 form 表单
+	 * 
+	 * @param uri 请求地址
+	 * @param params 请求参数
+	 * @param headerParams 头部请求参数
+	 * @return json对象
+	 * @throws IOException io异常
+	 */
+	public static JSONObject postForm(String uri, Map<String,String> params, Map<String,String> headerParams) throws IOException {
+		String result = doPostForm(uri, params, headerParams);
+		JSONObject obj = JSONObject.fromObject(result);
+		return obj;
+	}
+	
+	/**
+	 * post请求 form 表单
+	 * 
+	 * @param uri 请求地址
+	 * @param params 请求参数
+	 * @param headerParams 头部请求参数
+	 * @return json对象
+	 * @throws IOException io异常
+	 */
+	public static JSONObject postForm(String uri, Map<String,String> params) throws IOException {
+		String result = doPostForm(uri, params, null);
 		JSONObject obj = JSONObject.fromObject(result);
 		return obj;
 	}
@@ -345,10 +380,66 @@ public class HttpUtil {
 			    	 httpPost.setHeader(entry.getKey(),entry.getValue());
 		        } 
 			}
-			StringEntity stringEntity = new StringEntity(json, "UTF-8");// 解决中文乱码问题
-			stringEntity.setContentEncoding("UTF-8");
-			stringEntity.setContentType("application/json");
-			httpPost.setEntity(stringEntity);
+			if (json != null) {
+				StringEntity stringEntity = new StringEntity(json, "UTF-8");// 解决中文乱码问题
+				stringEntity.setContentEncoding("UTF-8");
+				stringEntity.setContentType("application/json");
+				httpPost.setEntity(stringEntity);
+			}
+			response = httpClient.execute(httpPost);
+			HttpEntity entity = response.getEntity();
+			httpStr = EntityUtils.toString(entity, "UTF-8");
+		} catch (IOException e) {
+			throw e;
+		} finally {
+			if (response != null) {
+				try {
+					EntityUtils.consume(response.getEntity());
+				} catch (IOException e) {
+					//"释放连接错误"
+				}
+			}
+		}
+		return httpStr;
+	}
+	
+	
+	/**
+	 * 发送 POST 请求（HTTP），Form表单
+	 * 
+	 * @param apiUrl 请求地址
+	 * @param params Form表单数据 key - value 模式
+	 * @param headerParams header字符串集合
+	 * @return 响应字符串
+	 * @throws IOException io异常
+	 */
+	public static String doPostForm(String apiUrl, Map<String, String> params, Map<String,String> headerParams) throws IOException {
+		CloseableHttpClient httpClient = null;
+		if (apiUrl.toLowerCase().startsWith("https://")) {
+			httpClient = getHttpsClient();
+		} else {
+			httpClient = getHttpClient();
+		}
+		
+		String httpStr = null;
+		HttpPost httpPost = new HttpPost(apiUrl);
+		CloseableHttpResponse response = null;
+
+		try {
+			httpPost.setConfig(requestConfig);
+			if(headerParams!=null) {
+			     for (Map.Entry<String, String> entry : headerParams.entrySet()) {
+			    	 httpPost.setHeader(entry.getKey(),entry.getValue());
+		        } 
+			}
+			if (params != null) {
+				//表单方式
+		        List<BasicNameValuePair> pairList = new ArrayList<BasicNameValuePair>(); 
+		        for (String key : params.keySet()) {
+		        	pairList.add(new BasicNameValuePair(key, params.get(key)));
+		        }
+				httpPost.setEntity(new UrlEncodedFormEntity(pairList, "utf-8"));  
+			}
 			response = httpClient.execute(httpPost);
 			HttpEntity entity = response.getEntity();
 			httpStr = EntityUtils.toString(entity, "UTF-8");
