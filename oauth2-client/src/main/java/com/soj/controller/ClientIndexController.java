@@ -31,7 +31,7 @@ public class ClientIndexController {
 	
 	@RequestMapping("logout")
 	public String logout(HttpServletRequest request, HttpServletResponse response) {
-		//2、注销session和cookies
+		//注销session和cookies
 		request.getSession().invalidate();//清除 session 中的所有信息
 		//退出登录的时候清空cookie信息,cookie需要通过HttpServletRequest，HttpServletResponse获取
 		Cookie[] cookie=request.getCookies();

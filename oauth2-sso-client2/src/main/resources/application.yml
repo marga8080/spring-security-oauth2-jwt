@@ -1,0 +1,17 @@
+server:
+    port: 9092
+    session: 
+      cookie:
+        name: SESSION9092
+        
+security:
+  oauth2:
+    client:
+      client-id: sso-client2
+      client-secret: secret
+      access-token-uri: http://localhost:8080/oauth/token
+      user-authorization-uri: http://localhost:8080/oauth/authorize
+    resource:
+      jwt:
+        key-uri: http://127.0.0.1:8080/oauth/token_key   
+
