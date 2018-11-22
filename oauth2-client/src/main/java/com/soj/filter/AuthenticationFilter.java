@@ -76,6 +76,14 @@ public class AuthenticationFilter implements Filter {
 		
 		String redirect_url = request.getRequestURL().toString();
 		
+		String accessToken = request.getParameter("token");
+		if (StringUtils.isNotBlank(accessToken)) {
+			UserInfo user = getUserInfo(accessToken);
+			session.setAttribute(USER_INFO, user);
+			response.sendRedirect(redirect_url);
+			return;
+		}
+		
 		String code = request.getParameter("code");
 		if (StringUtils.isNotBlank(code)) {
 			String token = getToken(code, redirect_url);
