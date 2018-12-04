@@ -63,7 +63,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {
-		
+		http.csrf().disable(); // 关闭csrf保护功能（跨域访问）
+        
 		/*
 		 * '/oauth/token'、'/oauth/token_key'、'/oauth/check_token'这些uri端点，已被oauth2的一个安全配置类定义了匹配规则，
 		 * 如果在这里定义自定义过滤器，是在ResourceServerConfiguration配置对应的过滤器链，而且匹配顺序在上面的安全配置类之后，因此对以上的uri拦截不了，
@@ -71,7 +72,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		 * 所以我们采取下面FilterRegistrationBean的方式进行注册。
 		 */
 		http.authorizeRequests()
-			.antMatchers("/login", "/sms/**",  "/static/**")
+			.antMatchers("/login", "/sms/**", "/static/**")
 			.permitAll()
 			.anyRequest()
 			.authenticated()
@@ -83,7 +84,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.permitAll()
 			.and()
 			.logout()
-			.logoutSuccessUrl("/login");
+			.logoutSuccessHandler(
+                    (request, response, authentication) -> {
+                        String callback = request.getParameter("callback");
+                        if (callback == null){
+                            callback = "/login";
+                        }
+                        response.sendRedirect(callback);
+                    }
+            );
 		
 		http.addFilterBefore(smsCodeAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
 	}

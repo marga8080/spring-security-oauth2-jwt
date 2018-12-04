@@ -13,5 +13,6 @@ security:
       user-authorization-uri: http://localhost:8080/oauth/authorize
     resource:
       jwt:
-        key-uri: http://127.0.0.1:8080/oauth/token_key   
+        key-uri: http://localhost:8080/oauth/token_key   
 
+#logging.level.org.springframework.boot: DEBUG
