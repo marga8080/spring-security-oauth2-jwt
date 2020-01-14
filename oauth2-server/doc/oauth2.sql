@@ -118,12 +118,12 @@ VALUES
 
 drop table if exists t_user;
 CREATE TABLE t_user (
-  unid VARCHAR(32) PRIMARY KEY,
+  id VARCHAR(32) PRIMARY KEY,
   name VARCHAR(255),
   username VARCHAR(255),
   password VARCHAR(255),
   phone VARCHAR(11)
 );
 
-INSERT INTO t_user (unid, name, username, password, phone) 
-VALUES ('1', '管理员', 'admin', '123456', '15805938079');
+INSERT INTO t_user (id, name, username, password, phone) 
+VALUES ('1', '管理员', 'admin', '123456', '15805058080');

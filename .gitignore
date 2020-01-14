@@ -31,3 +31,4 @@ oauth2-server/.classpath
 oauth2-client/.classpath
 oauth2-sso-client1/.classpath
 oauth2-sso-client2/.classpath
+oauth2-server/.factorypath

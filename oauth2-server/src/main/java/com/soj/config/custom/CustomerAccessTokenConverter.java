@@ -25,8 +25,8 @@ public class CustomerAccessTokenConverter extends DefaultAccessTokenConverter {
 			// 默认放进access token的只有user_name和authorities(如有)
 			Map<String, Object> response = (Map<String, Object>) super.convertUserAuthentication(authentication);
 			// 增加自定义属性
-			response.put("name", ((OAuthUserDetails) authentication.getPrincipal()).getName()); // 用户姓名
-			response.put("id", ((OAuthUserDetails) authentication.getPrincipal()).getUnid()); // 用户id
+			response.put("userName", ((OAuthUserDetails) authentication.getPrincipal()).getName()); // 用户姓名
+			response.put("userId", ((OAuthUserDetails) authentication.getPrincipal()).getId()); // 用户id
 			return response;
 		}
 	}

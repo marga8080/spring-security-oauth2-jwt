@@ -1,7 +1,5 @@
 package com.soj.config;
 
-import java.util.concurrent.TimeUnit;
-
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +16,6 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
@@ -62,21 +59,6 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 		endpoints.tokenStore(tokenStore());
 		// 自定义token生成方式
 		endpoints.tokenEnhancer(accessTokenConverter());
-		
-		// 如果tokenEnhancer为null，且accessTokenConverter()为JwtAccessTokenConverter的实例，则tokenEnhancer＝JwtAccessTokenConverter
-//		endpoints.accessTokenConverter(accessTokenConverter()); // 如果配置这行check_token时会使用这个converter
-
-		// 配置TokenServices参数
-		DefaultTokenServices tokenServices = (DefaultTokenServices) endpoints.getDefaultAuthorizationServerTokenServices();
-		tokenServices.setTokenStore(endpoints.getTokenStore());
-		tokenServices.setSupportRefreshToken(true);
-		tokenServices.setReuseRefreshToken(true);
-		tokenServices.setClientDetailsService(endpoints.getClientDetailsService());
-		tokenServices.setTokenEnhancer(endpoints.getTokenEnhancer());
-		tokenServices.setAccessTokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(1)); 	 // 1天
-		tokenServices.setRefreshTokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(30)); // 30天
-		endpoints.tokenServices(tokenServices);
-		
 		// 支持post 和 get方法  默认只支持post
 		endpoints.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);// add get method
 		super.configure(endpoints);
@@ -106,7 +88,8 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 	 * 客户端信息服务
 	 */
 	@Bean
-	public ClientDetailsService clientDetails() {
+	public ClientDetailsService clientDetails() { 
+		// oauth_client_details
 		return new JdbcClientDetailsService(dataSource);
 	}
 

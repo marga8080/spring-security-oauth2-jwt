@@ -18,7 +18,7 @@ public class OAuthUserDetails implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
 
-	private String unid; // 唯一id
+	private String id; // 唯一id
 	private String name;
 	private String username;
 	private String password;
@@ -79,12 +79,13 @@ public class OAuthUserDetails implements UserDetails {
 		this.username = username;
 	}
 
-	public String getUnid() {
-		return unid;
+	public String getId() {
+		return id;
 	}
 
-	public void setUnid(String unid) {
-		this.unid = unid;
+	public void setId(String id) {
+		this.id = id;
 	}
+
 
 }

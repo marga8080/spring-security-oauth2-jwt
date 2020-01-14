@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  * @param <T> 数据对象
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ResponseResult<T> implements Serializable {
+public class RespResult<T> implements Serializable {
 
 	private static final long serialVersionUID = -353661331696549464L;
 	
@@ -21,11 +21,11 @@ public class ResponseResult<T> implements Serializable {
 	private String errmsg; // 描述
 	private T data;
 	
-	public ResponseResult() {
+	public RespResult() {
 	    this.setErrcode(SUCCESS);
 	}
 	
-	public ResponseResult(String errcode, String errmsg) {
+	public RespResult(String errcode, String errmsg) {
 	    this.errcode = errcode;
 	    this.errmsg = errmsg;
 	}

@@ -95,6 +95,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             );
 		
 		http.addFilterBefore(smsCodeAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
+		
 	}
 
 

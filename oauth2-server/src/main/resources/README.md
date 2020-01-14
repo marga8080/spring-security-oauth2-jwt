@@ -86,7 +86,7 @@ curl -u client1:secret http://localhost:8080/oauth/token -d grant_type=refresh_t
 ### 2.1访问授权页面
 
 ```http
-http://localhost:8080/uaa/oauth/authorize?client_id=client1&response_type=code&redirect_uri=http://www.baidu.com&state=3fsdoi
+http://localhost:8080/oauth/authorize?client_id=client1&response_type=code&redirect_uri=http://www.baidu.com&state=3fsdoi
 ```
 
 ![](https://marga8080.github.io/httpdoc/image/spring-oauth2/spring-oauth2-001.png)

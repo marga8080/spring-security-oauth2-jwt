@@ -39,7 +39,7 @@ public class CustomUserService implements UserDetailsService {
 			throw new UsernameNotFoundException("用户不存在");
 		}
 		OAuthUserDetails oauthUser = new OAuthUserDetails();
-		oauthUser.setUnid(user.getUnid());
+		oauthUser.setId(user.getId());
 		oauthUser.setUsername(userName);
 		oauthUser.setName(user.getName());
 		oauthUser.setPassword(user.getPassword());
@@ -53,7 +53,7 @@ public class CustomUserService implements UserDetailsService {
 			throw new UsernameNotFoundException("系统中不存在该手机号码");
 		}
 		OAuthUserDetails oauthUser = new OAuthUserDetails();
-		oauthUser.setUnid(user.getUnid());
+		oauthUser.setId(user.getId());
 		oauthUser.setUsername(user.getUsername());
 		oauthUser.setName(user.getName());
 		oauthUser.setPassword(user.getPassword());

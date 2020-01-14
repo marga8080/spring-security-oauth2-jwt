@@ -1,18 +1,17 @@
-http://localhost:8080/oauth/token?username=user_1&password=123456&grant_type=password&scope=select&client_id=client_2&client_secret=123456
 
-# ��ȡcode
+# 获取code
 http://localhost:8080/oauth/authorize?client_id=client1&response_type=code&redirect_uri=http://www.baidu.com
 
-#implicit ��ģʽ ֱ�ӻ�ȡtoken
+#implicit 简化模式 直接获取token
 http://localhost:8080/oauth/authorize?client_id=client2&response_type=token&redirect_uri=http://www.baidu.com
 
 #client_credentials
 http://localhost:8080/oauth/token?grant_type=client_credentials&client_id=client3&client_secret=secret
 
-# ��ȡtoken
+# 获取token
 http://localhost:8080/oauth/token?username=admin&password=123456&grant_type=password&client_id=client1&client_secret=secret
 
-# У��token
+# 校验token
 http://localhost:8080/oauth/check_token?token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJhZG1pbiIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdLCJuYW1lIjoi566h55CG5ZGYIiwiaWQiOiIxIiwiZXhwIjoxNTQyNjIwNTU4LCJhdXRob3JpdGllcyI6WyJBQ1RVQVRPUiIsIlJPTEVfVVNFUiJdLCJqdGkiOiIwYjdlZThlZi0yNTBiLTRhNmMtOGQ5Zi0wODk1OTE1OWJjMjUiLCJjbGllbnRfaWQiOiJzc28tY2xpZW50MSJ9.a1OIRDjbple7XnFBilvb5_EiAaqxG0wAHIcd4UMfQ2z8TDfTaTE8OarNDDIydpCYtUeOY2CG1_82SKAvkaeExZXO0exfyOPJaZ2nKR5KJPmQmviPCL1cx8FEg_LFg8awrnZXm4mg8oOth5qk_fQCyJBHDzIRn4-c7-8oRQxjJMb4SCLYuyhMgp-lbW2EhMYMhVORW4LAlDnT2CNLuGl0lQ9zpngd3IxoddrSC0AAqZ-dIySCUfhyktWOVgJ2BIKLjJGdusZp1hdzo0MQ6dWLoxUg7oban_JiP1HnL4z0Dz9HV7Dqx6nusfFWw2_Dv2mmQDg-YKN4s3ljpstZ1fuUlg
 
 

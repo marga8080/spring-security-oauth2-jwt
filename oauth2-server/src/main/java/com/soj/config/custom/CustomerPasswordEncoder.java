@@ -27,14 +27,6 @@ public class CustomerPasswordEncoder implements PasswordEncoder {
 	 */
 	@Override
 	public boolean matches(CharSequence rawPassword, String encodedPassword) {
-//		// rsa解密
-//	    LoginSecurityInfo info = SecurityServiceUtil.rsaDecrypt(rawPassword.toString());
-//		// 验证timestamp
-//		SecurityServiceUtil.validatePassword(info);
-//		// 验证密码是否匹配
-//		if (SecurityServiceUtil.matchPassword(info.getHashPass(), encodedPassword)) {
-//			return true;
-//		}
 		if (rawPassword.equals(encodedPassword)) {
 			return true;
 		}
