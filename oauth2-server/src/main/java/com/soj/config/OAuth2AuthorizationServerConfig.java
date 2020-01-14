@@ -21,8 +21,8 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
-import com.soj.config.custom.CustomerAccessTokenConverter;
-import com.soj.config.custom.CustomerPasswordEncoder;
+import com.soj.config.custom.CustomAccessTokenConverter;
+import com.soj.config.custom.CustomPasswordEncoder;
 
 /**
  * OAuth2服务器配置
@@ -80,7 +80,7 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 
 	@Bean
     public PasswordEncoder passwordEncoder() {
-		return new CustomerPasswordEncoder();
+		return new CustomPasswordEncoder();
 	}
 	
 	
@@ -114,7 +114,7 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 		KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("lwuums.jks"), "uumspass".toCharArray());
 		converter.setKeyPair(keyStoreKeyFactory.getKeyPair("lwuums"));
 //		converter.setSigningKey("123");// 测试用,授权服务使用相同的字符达到一个对称加密的效果,生产时候使用RSA非对称加密方式
-		converter.setAccessTokenConverter(new CustomerAccessTokenConverter());
+		converter.setAccessTokenConverter(new CustomAccessTokenConverter());
 		return converter;
 	}
 	

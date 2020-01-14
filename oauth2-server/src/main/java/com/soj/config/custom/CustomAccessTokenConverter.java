@@ -11,9 +11,9 @@ import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticat
  * 自定义AccessToken的转换，增加自定义属性
  * 
  */
-public class CustomerAccessTokenConverter extends DefaultAccessTokenConverter {
+public class CustomAccessTokenConverter extends DefaultAccessTokenConverter {
 
-	public CustomerAccessTokenConverter() {
+	public CustomAccessTokenConverter() {
 		super.setUserTokenConverter(new CustomerUserAuthenticationConverter());
 	}
 
@@ -25,8 +25,9 @@ public class CustomerAccessTokenConverter extends DefaultAccessTokenConverter {
 			// 默认放进access token的只有user_name和authorities(如有)
 			Map<String, Object> response = (Map<String, Object>) super.convertUserAuthentication(authentication);
 			// 增加自定义属性
-			response.put("userName", ((OAuthUserDetails) authentication.getPrincipal()).getName()); // 用户姓名
-			response.put("userId", ((OAuthUserDetails) authentication.getPrincipal()).getId()); // 用户id
+			CustomUserDetails ud = (CustomUserDetails) authentication.getPrincipal();
+			response.put("user_id", ud.getId()); // 用户id
+			response.put("real_name", ud.getRealname()); // 用户姓名
 			return response;
 		}
 	}

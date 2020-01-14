@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.soj.config.custom.OAuthUserDetails;
+import com.soj.config.custom.CustomUserDetails;
 import com.soj.mapper.UserMapper;
 import com.soj.model.User;
 
@@ -35,10 +35,10 @@ public class UserService extends ServiceImpl<UserMapper, User> implements UserDe
 		if (user == null) {
 			throw new UsernameNotFoundException("用户不存在");
 		}
-		OAuthUserDetails oauthUser = new OAuthUserDetails();
+		CustomUserDetails oauthUser = new CustomUserDetails();
 		oauthUser.setId(user.getId());
 		oauthUser.setUsername(userName);
-		oauthUser.setName(user.getName());
+		oauthUser.setRealname(user.getName());
 		oauthUser.setPassword(user.getPassword());
 		return oauthUser;
 	}
@@ -51,10 +51,10 @@ public class UserService extends ServiceImpl<UserMapper, User> implements UserDe
 		if (user == null) {
 			throw new UsernameNotFoundException("系统中不存在该手机号码");
 		}
-		OAuthUserDetails oauthUser = new OAuthUserDetails();
+		CustomUserDetails oauthUser = new CustomUserDetails();
 		oauthUser.setId(user.getId());
 		oauthUser.setUsername(user.getUsername());
-		oauthUser.setName(user.getName());
+		oauthUser.setRealname(user.getName());
 		oauthUser.setPassword(user.getPassword());
 		return oauthUser;
 	}

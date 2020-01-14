@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * @author mawei
  *
  */
-public class CustomerPasswordEncoder implements PasswordEncoder {
+public class CustomPasswordEncoder implements PasswordEncoder {
 	
 	@Override
 	public String encode(CharSequence rawPassword) {

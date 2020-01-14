@@ -16,13 +16,13 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
-public class FailureHandler implements AuthenticationFailureHandler {
+public class CustomFailureHandler implements AuthenticationFailureHandler {
 	protected final Log logger = LogFactory.getLog(getClass());
 	
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	private String defaultFailureUrl;
 
-	public FailureHandler(String defaultFailureUrl) {
+	public CustomFailureHandler(String defaultFailureUrl) {
 		this.defaultFailureUrl = defaultFailureUrl;
 	}
 

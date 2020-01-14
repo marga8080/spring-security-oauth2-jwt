@@ -13,7 +13,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.soj.config.authentication.filter.SmsCodeAuthenticationProcessingFilter;
 import com.soj.config.authentication.provider.SmsCodeAuthenticationProvider;
 import com.soj.config.authentication.provider.UsernamePasswordAuthenticationProvider;
-import com.soj.config.custom.FailureHandler;
+import com.soj.config.custom.CustomFailureHandler;
 
 /**
  * Web Security 配置
@@ -44,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public SmsCodeAuthenticationProcessingFilter smsCodeAuthenticationProcessingFilter() {
 		SmsCodeAuthenticationProcessingFilter filter = new SmsCodeAuthenticationProcessingFilter();
 		filter.setAuthenticationManager(authenticationManager);
-		filter.setAuthenticationFailureHandler(new FailureHandler("/login"));
+		filter.setAuthenticationFailureHandler(new CustomFailureHandler("/login"));
 		return filter;
 	}
 
@@ -67,7 +67,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/login", "/sms/**", "/static/**").permitAll().anyRequest().authenticated()
 				.and()
 				.formLogin().loginPage("/login")
-				.failureHandler(new FailureHandler("/login"))
+				.failureHandler(new CustomFailureHandler("/login"))
 				.defaultSuccessUrl("/index").permitAll()
 				.and()
 				.logout()
