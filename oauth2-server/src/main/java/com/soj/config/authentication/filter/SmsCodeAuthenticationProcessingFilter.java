@@ -1,4 +1,4 @@
-package com.soj.config.filter;
+package com.soj.config.authentication.filter;
 
 import java.io.IOException;
 
@@ -13,7 +13,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.soj.config.token.SmsCodeAuthenticationToken;
+import com.soj.config.authentication.token.SmsCodeAuthenticationToken;
 
 public class SmsCodeAuthenticationProcessingFilter extends AbstractAuthenticationProcessingFilter {
     public static final String SPRING_SECURITY_FORM_MOBILE_KEY = "phone";

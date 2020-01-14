@@ -1,4 +1,4 @@
-package com.soj.config.provider;
+package com.soj.config.authentication.provider;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +9,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
-import com.soj.config.token.SmsCodeAuthenticationToken;
-import com.soj.service.CustomUserService;
+import com.soj.config.authentication.token.SmsCodeAuthenticationToken;
+import com.soj.service.UserService;
 import com.soj.utils.JedisUtils;
 
 /**
@@ -21,7 +21,7 @@ import com.soj.utils.JedisUtils;
 public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
 	
 	@Autowired
-	CustomUserService userService;
+	UserService userService;
 	
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {

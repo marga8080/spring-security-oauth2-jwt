@@ -19,7 +19,7 @@ public class IndexController {
 		return "index";
 	}
 	
-	@GetMapping("/login")
+	@GetMapping("login")
     public String login(Model model, @RequestParam(value = "error", required = false) String error) {
         if (error != null) {
         	logger.error(error);

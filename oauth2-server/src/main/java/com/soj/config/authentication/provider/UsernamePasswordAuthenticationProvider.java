@@ -1,4 +1,4 @@
-package com.soj.config.provider;
+package com.soj.config.authentication.provider;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +8,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import com.soj.service.CustomUserService;
 
 /**
  * 用户名密码登录
@@ -20,7 +19,7 @@ import com.soj.service.CustomUserService;
 public class UsernamePasswordAuthenticationProvider implements AuthenticationProvider {
 	
 	@Autowired
-	CustomUserService userService;
+	UserDetailsService userService;
 	@Autowired
 	PasswordEncoder passwordEncoder;
 

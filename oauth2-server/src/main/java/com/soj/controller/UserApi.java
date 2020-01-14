@@ -12,7 +12,7 @@ import com.soj.service.UserService;
 
 @RestController
 @RequestMapping("api")
-public class UserController {
+public class UserApi {
 
 	@Autowired
 	UserService userService;

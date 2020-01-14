@@ -1,4 +1,4 @@
-package com.soj.config.token;
+package com.soj.config.authentication.token;
 
 import java.util.Collection;
 

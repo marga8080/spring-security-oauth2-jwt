@@ -27,6 +27,7 @@ public class CustomerPasswordEncoder implements PasswordEncoder {
 	 */
 	@Override
 	public boolean matches(CharSequence rawPassword, String encodedPassword) {
+		// TODO 
 		if (rawPassword.equals(encodedPassword)) {
 			return true;
 		}
