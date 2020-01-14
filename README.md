@@ -1,6 +1,6 @@
 # OAuth2授权模式
 
-## 1密码模式
+## 1、密码模式
 
 > 将用户名,密码传过去,直接获取token
 
@@ -79,7 +79,7 @@ curl -u client1:secret http://localhost:8080/oauth/token -d grant_type=refresh_t
 }
 ```
 
-## 2授权码模式
+## 2、授权码模式
 
 > 即先登录获取code,再获取token
 
@@ -128,7 +128,7 @@ http://localhost:8080/oauth/authorize?client_id=client1&response_type=code&redir
 }
 ```
 
-## implicit 简化模式
+## 3、简化模式
 
 > 在redirect_uri 的Hash传递token; Auth客户端运行在浏览器中,如JS,Flash
 
@@ -144,9 +144,31 @@ http://localhost:8080/oauth/authorize?client_id=client2&response_type=token&redi
 https://www.baidu.com/#access_token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJhZG1pbiIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSIsImZvbyIsImJhciJdLCJuYW1lIjoi5byg5LiJIiwiaWQiOiIxIiwiZXhwIjoxNTQyMDEwODUzLCJhdXRob3JpdGllcyI6WyJBQ1RVQVRPUiIsIlJPTEVfVVNFUiJdLCJqdGkiOiJjMzVlYmY0ZC05ZDFiLTQyYTUtOGY0ZS04ZjdjZjM1NDI0YjYiLCJjbGllbnRfaWQiOiJjbGllbnQyIn0.e0cGQheRsQrcyUXzF8BXkM6wHw5Zm9VkRexKR89EmDGwZWqagGAFbpTjEnxqKIzywakgGqqAMyQPzXQQdoB2_HnDEyGOpi9hrYXutfC6Td0hAPSdXTthhQRrK4YQfuqaK914HC8trOEikneNuj0SmeZtwOnXO8NxgunSz1dq_6dvqF4JY43pTX6EzLw5sE1kYS39ThpLNd0O7AERliVMNsoIBSZ24mF1MkYmvm93XGVD-IBzktb-p2Vh123W6aKk7fY0_-bIK40yEDEDfwe-zCxkLUPhitijVNLSajcZNKrudlUjkKYPnAyqRmlUQVBi77Rcq6waecaSy-t_b_zgTA&token_type=bearer&expires_in=3599&scope=read%20write%20foo%20bar&jti=c35ebf4d-9d1b-42a5-8f4e-8f7cf35424b6
 ```
 
+## 4、客户端模式
+
+> 这是一种最简单的模式，只要client请求，我们就将AccessToken发送给它
+
+```http
+http://localhost:8080/oauth/token?grant_type=client_credentials&client_id=client3&client_secret=secret
+```
+
+返回：
+
+```json
+{
+	"access_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJiYXIiLCJyZWFkIiwid3JpdGUiXSwiZXhwIjoxNTc4OTkwMTQxLCJqdGkiOiIwNTEwNGRkZS0yZTUzLTRjZDktYjRjOC1mZmI4NzIwMTk3Y2IiLCJjbGllbnRfaWQiOiJjbGllbnQzIn0.TitHiiMstx6diaU5sDAXXhmo1k2YHP6FD6JTkm8PMu4x6xKJXojWJQwaOEXyFzNpizrnxS8KuicmTAIsg0jXG0Cx3UYFy4ljaVzhoBx8jw_Bx47th5m9lIcjXTrPIsuBHbWdC67bHt3Pu0JdBWntPemtjr1GsCu5pyG5RiCoq4Wv5TXKynI8DGb8s7QVZm__VBTHqP60rivaV_VbOLOXlJuOQNJSeC82Nye_QtlcErSncM65--LC4xhoGSqomODwCwB77ngoWaCyHkDyDsf1R8tLwoJ-AmcL-HEkm6qVWR7-dyXNOSXwWfP_EvGrAeua5JiGwXtPFSH1ifUfrbm8LA",
+	"token_type": "bearer",
+	"expires_in": 3599,
+	"scope": "bar read write",
+	"jti": "05104dde-2e53-4cd9-b4c8-ffb8720197cb"
+}
+```
 
 
 
+# URL处理规则
+
+![](https://marga8080.github.io/httpdoc/image/spring-oauth2/ars.png)
 
 # RSA 证书
 

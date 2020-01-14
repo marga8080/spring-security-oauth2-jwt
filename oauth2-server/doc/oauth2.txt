@@ -1,14 +1,14 @@
 
-# 获取code
+# 获取code 授权码模式
 http://localhost:8080/oauth/authorize?client_id=client1&response_type=code&redirect_uri=http://www.baidu.com
 
 #implicit 简化模式 直接获取token
 http://localhost:8080/oauth/authorize?client_id=client2&response_type=token&redirect_uri=http://www.baidu.com
 
-#client_credentials
+#client_credentials 客户端模式
 http://localhost:8080/oauth/token?grant_type=client_credentials&client_id=client3&client_secret=secret
 
-# 获取token
+# 获取token 密码模式
 http://localhost:8080/oauth/token?username=admin&password=123456&grant_type=password&client_id=client1&client_secret=secret
 
 # 校验token

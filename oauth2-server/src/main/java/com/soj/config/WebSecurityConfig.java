@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.soj.config.custom.RedirectUrlAuthenticationFailureHandler;
+import com.soj.config.custom.FailureHandler;
 import com.soj.config.filter.SmsCodeAuthenticationProcessingFilter;
 import com.soj.config.provider.SmsCodeAuthenticationProvider;
 import com.soj.config.provider.UsernamePasswordAuthenticationProvider;
@@ -46,7 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public SmsCodeAuthenticationProcessingFilter smsCodeAuthenticationProcessingFilter() {
 		SmsCodeAuthenticationProcessingFilter filter = new SmsCodeAuthenticationProcessingFilter();
         filter.setAuthenticationManager(authenticationManager);
-        filter.setAuthenticationFailureHandler(new RedirectUrlAuthenticationFailureHandler("/login"));
+        filter.setAuthenticationFailureHandler(new FailureHandler("/login"));
         return filter;
     }
 	
@@ -79,7 +79,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.and()
 			.formLogin()
 			.loginPage("/login")
-			.failureHandler(new RedirectUrlAuthenticationFailureHandler("/login"))
+			.failureHandler(new FailureHandler("/login"))
 			.defaultSuccessUrl("/index")
 			.permitAll()
 			.and()
