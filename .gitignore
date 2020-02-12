@@ -32,3 +32,5 @@ oauth2-client/.classpath
 oauth2-sso-client1/.classpath
 oauth2-sso-client2/.classpath
 oauth2-server/.factorypath
+sso-client1/target/
+sso-client1/.classpath

@@ -1,0 +1,17 @@
+server:
+  port: 9091
+  
+  
+oauth2:   client:     id: sso-client1
+    secret: secret
+    url: http://127.0.0.1:9091
+  server:
+    url: http://localhost:8080            
+
+
+  
+
+   
+  
+  
+  
